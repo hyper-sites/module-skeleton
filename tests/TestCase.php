@@ -1,8 +1,9 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\ServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use VendorName\Skeleton\SkeletonServiceProvider;
 
@@ -17,13 +18,6 @@ class TestCase extends Orchestra
         );
     }
 
-    protected function getPackageProviders($app)
-    {
-        return [
-            SkeletonServiceProvider::class,
-        ];
-    }
-
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
@@ -32,5 +26,16 @@ class TestCase extends Orchestra
         $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
         $migration->up();
         */
+    }
+
+    /**
+     * @param $app
+     * @return array<class-string<ServiceProvider>>
+     */
+    protected function getPackageProviders($app): array
+    {
+        return [
+            ModuleSkeletonServiceProvider::class,
+        ];
     }
 }
