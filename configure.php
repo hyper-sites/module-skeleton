@@ -245,21 +245,12 @@ function guessGitHubVendorInfo($authorName, $username): array
     return [$response->name ?? $authorName, $response->login ?? $username];
 }
 
-$gitName = run('git config user.name');
-$authorName = ask('Author name', $gitName);
+$authorName = ask('Author name', 'Hyper Team');
+$authorEmail = ask('Author email', 'developers@hyper.com');
 
-$gitEmail = run('git config user.email');
-$authorEmail = ask('Author email', $gitEmail);
-$authorUsername = ask('Author username', guessGitHubUsername());
-
-$guessGitHubVendorInfo = guessGitHubVendorInfo($authorName, $authorUsername);
-
-$vendorName = ask('Vendor name', $guessGitHubVendorInfo[0]);
-$vendorUsername = ask('Vendor username', $guessGitHubVendorInfo[1] ?? slugify($vendorName));
+$vendorNamespace = ask('Vendor namespace', 'Hyper');
+$vendorUsername = ask('Vendor username', 'hyper-sites');
 $vendorSlug = slugify($vendorUsername);
-
-$vendorNamespace = str_replace('-', '', ucwords($vendorName));
-$vendorNamespace = ask('Vendor namespace', $vendorNamespace);
 
 $currentDirectory = getcwd();
 $folderName = basename($currentDirectory);
@@ -280,8 +271,8 @@ $useLaravelRay = confirm('Use Ray for debugging?', true);
 $useUpdateChangelogWorkflow = confirm('Use automatic changelog updater workflow?', true);
 
 writeln('------');
-writeln("Author     : {$authorName} ({$authorUsername}, {$authorEmail})");
-writeln("Vendor     : {$vendorName} ({$vendorSlug})");
+writeln("Author     : {$authorName} ({$authorEmail})");
+writeln("Vendor     : {$vendorNamespace} ({$vendorSlug})");
 writeln("Package    : {$packageSlug} <{$description}>");
 writeln("Namespace  : {$vendorNamespace}\\{$className}");
 writeln("Class name : {$className}");
@@ -305,9 +296,9 @@ $files = (str_starts_with(strtoupper(PHP_OS), 'WIN') ? replaceForWindows() : rep
 foreach ($files as $file) {
     replace_in_file($file, [
         ':author_name' => $authorName,
-        ':author_username' => $authorUsername,
+        ':author_username' => $vendorSlug,
         'author@domain.com' => $authorEmail,
-        ':vendor_name' => $vendorName,
+        ':vendor_name' => $vendorSlug,
         ':vendor_slug' => $vendorSlug,
         'VendorName' => $vendorNamespace,
         ':package_name' => $packageName,
@@ -325,7 +316,7 @@ foreach ($files as $file) {
         str_contains($file, determineSeparator('src/SkeletonServiceProvider.php')) => rename($file, determineSeparator('./src/'.$className.'ServiceProvider.php')),
         str_contains($file, determineSeparator('src/Facades/Skeleton.php')) => rename($file, determineSeparator('./src/Facades/'.$className.'.php')),
         str_contains($file, determineSeparator('src/Commands/SkeletonCommand.php')) => rename($file, determineSeparator('./src/Commands/'.$className.'Command.php')),
-        str_contains($file, determineSeparator('database/migrations/create_skeleton_table.php.stub')) => rename($file, determineSeparator('./database/migrations/create_'.title_snake($packageSlugWithoutPrefix).'_table.php.stub')),
+        str_contains($file, determineSeparator('resources/database/migrations/create_skeleton_table.php.stub')) => rename($file, determineSeparator('./resources/database/migrations/create_'.title_snake($packageSlugWithoutPrefix).'_table.php.stub')),
         str_contains($file, determineSeparator('config/skeleton.php')) => rename($file, determineSeparator('./config/'.$packageSlugWithoutPrefix.'.php')),
         str_contains($file, 'README.md') => remove_readme_paragraphs($file),
         default => [],
