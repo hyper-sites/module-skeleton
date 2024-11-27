@@ -1,7 +1,7 @@
 {
     "name": ":vendor_slug/:package_slug",
     "description": ":package_description",
-    "keywords": ["hyper-sites", "laravel", ":package_slug"],
+    "keywords": ["hyper-sites", "laravel", ":package_slug", "module", "konekt", "concord"],
     "homepage": "https://github.com/:vendor_slug/:package_slug",
     "authors": [
         {
