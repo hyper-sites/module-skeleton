@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 arch()
-    ->arch()->expect('VendorName\Skeleton')
+    ->expect('VendorName\Skeleton')
     ->toHaveMethodsDocumented()
     ->toHavePropertiesDocumented()
     ->toUseStrictTypes()
