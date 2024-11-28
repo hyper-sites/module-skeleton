@@ -1,7 +1,14 @@
 {
     "name": ":vendor_slug/:package_slug",
     "description": ":package_description",
-    "keywords": ["hyper-sites", "laravel", ":package_slug", "module", "konekt", "concord"],
+    "keywords": [
+        "hyper-sites",
+        "laravel",
+        ":package_slug",
+        "module",
+        "konekt",
+        "concord"
+    ],
     "homepage": "https://github.com/:vendor_slug/:package_slug",
     "authors": [
         {
@@ -44,7 +51,7 @@
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
+        "test": "./vendor/bin/pest --ci --stop-on-failure --parallel",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },

@@ -122,4 +122,3 @@ arch()->expect('VendorName\Skeleton\Http\Controllers')
 arch()->expect('VendorName\Skeleton\Policies')
     ->classes()
     ->toHaveSuffix('Policy');
-
