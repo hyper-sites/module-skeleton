@@ -1,0 +1,11 @@
+{
+    "exclude": [
+        "app-modules"
+    ],
+    "scripts": {
+        "lint": {
+            "phpstan": ["./vendor/bin/phpstan", "analyse"]
+        }
+    },
+    "processTimeout": 120
+}
